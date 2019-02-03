@@ -36,18 +36,13 @@ public class MainView extends VerticalLayout {
 
         HorizontalLayout filtering = new HorizontalLayout(filterText,
         clearFilterTextBtn);
-        add(filtering, grid);
-
+        
         grid.setSizeFull();
 
         grid.addColumn(Customer::getFirstName).setHeader("First name");
         grid.addColumn(Customer::getLastName).setHeader("Last name");
         grid.addColumn(Customer::getStatus).setHeader("Status");
-
-        add(grid);
-        setHeight("100vh");
-
-        updateList();
+        grid.addColumn(Customer::getBirthDate).setHeader("Birthday");
 
         HorizontalLayout main = new HorizontalLayout(grid, form);
         main.setSizeFull();
@@ -57,7 +52,18 @@ public class MainView extends VerticalLayout {
             form.setCustomer(event.getValue());
         });
 
-        add(filtering, main);
+        Button addCustomerBtn = new Button("Add new Customer");
+        addCustomerBtn.addClickListener(e ->{
+            grid.asSingleSelect().clear();
+            form.setCustomer(new Customer());
+        }) ;
+
+        HorizontalLayout toolbar = new HorizontalLayout(filtering, addCustomerBtn);
+
+        add(toolbar, main);
+        setSizeFull();
+
+        updateList();
     }
 
     public void updateList() {
