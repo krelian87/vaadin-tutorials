@@ -23,6 +23,8 @@ public class MainView extends VerticalLayout {
     private Grid<Customer> grid = new Grid<>();
     private TextField filterText = new TextField();
 
+    private CustomerForm form = new CustomerForm(this);
+
     public MainView() {
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
@@ -46,9 +48,19 @@ public class MainView extends VerticalLayout {
         setHeight("100vh");
 
         updateList();
+
+        HorizontalLayout main = new HorizontalLayout(grid, form);
+        main.setSizeFull();
+        grid.setSizeFull();
+
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            form.setCustomer(event.getValue());
+        });
+
+        add(filtering, main);
     }
 
-    private void updateList() {
+    public void updateList() {
         grid.setItems(service.findAll(filterText.getValue()));
     }
 }
