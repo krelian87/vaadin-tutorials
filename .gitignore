@@ -1,0 +1,13 @@
+out
+server
+node_modules
+*.vsix
+.DS_Store
+.vscode
+.settings
+.project
+.classpath
+undefined
+target
+dist
+bin/
